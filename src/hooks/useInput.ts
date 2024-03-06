@@ -1,16 +1,20 @@
-// import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
-// const useInput = (initialForm: any) => {
-//   const [form, setForm] = useState(initialForm);
+interface initialFormType {
+  [key: string]: any;
+}
 
-//   //onChange
-//   const onChange = useCallback((e: FormEvent) => {
-//     const { name, value } = e.target;
-//     setForm((preForm) => ({ ...preForm, [name]: value }));
-//   }, []);
-//   const reset = useCallback(() => setForm(initialForm), [initialForm]);
+const useInput = (initialForm: initialFormType) => {
+  const [form, setForm] = useState(initialForm);
 
-//   return [form, setForm, onChange, reset];
-// };
+  //onChange
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((preForm) => ({ ...preForm, [name]: value }));
+  }, []);
+  const reset = useCallback(() => setForm(initialForm), [initialForm]);
 
-// export default useInput;
+  return [form, setForm, onChange, reset];
+};
+
+export default useInput;
