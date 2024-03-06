@@ -1,4 +1,3 @@
-import { error } from "console";
 import { useMutation, useQueryClient } from "react-query";
 
 const useSetMutation = <TypeData>(
@@ -15,7 +14,7 @@ const useSetMutation = <TypeData>(
     },
   });
 
-  return [mutation, error];
+  return [mutation];
 };
 
 export default useSetMutation;
