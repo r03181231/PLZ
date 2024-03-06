@@ -5,7 +5,7 @@ const useSetMutation = <TypeData>(
   setInvalidate: string
 ) => {
   const queryClient = useQueryClient();
-  const mutation = useMutation<TypeData, Error>(fc, {
+  const mutation = useMutation<TypeData, unknown, any, unknown>(fc, {
     onSuccess: () => {
       queryClient.invalidateQueries(setInvalidate);
     },

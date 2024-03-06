@@ -1,8 +1,10 @@
 import useInput from "@/hooks/useInput";
 import { useEffect, useRef } from "react";
 import * as FT from "@styles/todoFormSection.Style";
+import { postJson } from "@/api/jsonApi";
+import useSetMutation from "@/hooks/useSetMutation";
 
-interface Todo {
+export interface TTodo {
   id: string;
   title: string;
   comment: string;
@@ -11,20 +13,21 @@ interface Todo {
 }
 
 const FormTodo = () => {
+  const [mutation] = useSetMutation(postJson, "formTodo");
   //   const add: string = "추가";
-  const init: Todo = {
+  const init: TTodo | undefined = {
     id: crypto.randomUUID(),
     title: "",
     comment: "",
-    isDone: true,
+    isDone: false,
     deadLine: new Date().toISOString().split("T", 1)[0],
   };
 
   const [todoInput, setTodoInput, onChange, reset] = useInput(init);
   const refTitle = useRef<HTMLInputElement>(null);
-  const titleInput = todoInput.title;
-  const commentInput = todoInput.comment;
-  const deadLineInput = todoInput.deadLine;
+  const titleInput = todoInput?.title || "";
+  const commentInput = todoInput?.comment || "";
+  const deadLineInput = todoInput?.deadLine || "";
   const blankPattern = /^\s+|\s+$/g;
   useEffect(() => {
     if (refTitle.current !== null) {
@@ -47,7 +50,8 @@ const FormTodo = () => {
       alert("빈칸을 전부 채워주세요.");
       return;
     }
-    // setTodoInputs((prevTodos: any) => [{ ...todoInput }, ...prevTodos]);
+    console.log(todoInput);
+    mutation.mutate(todoInput);
     setTodoInput(init);
     reset();
     refTitle.current?.focus();
@@ -62,8 +66,9 @@ const FormTodo = () => {
           type="text"
           name="title"
           value={titleInput}
-          onChange={onChange}
           ref={refTitle}
+          maxLength={20}
+          onChange={onChange}
           autoFocus
         />
         <label htmlFor="comment">내용</label>
