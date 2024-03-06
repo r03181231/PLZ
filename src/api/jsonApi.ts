@@ -17,3 +17,8 @@ export const postJson = async (newTodo: TTodo) => {
 export const deleteJson = async (id: string) => {
   await axios.delete(`${serverUrl}/todos/${id}`);
 };
+
+export const changeJson = async (changeTodo: Pick<TTodo, "id" | "isDone">) => {
+  const { id, isDone } = changeTodo;
+  await axios.patch(`${serverUrl}/todos/${id}`, { isDone });
+};

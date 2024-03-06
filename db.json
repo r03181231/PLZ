@@ -1,17 +1,10 @@
 {
   "todos": [
     {
-      "id": "e5ed9970-c370-46f9-861e-361a6e4169d9",
-      "title": "리액트를 배워볼까",
-      "comment": "리액트, 타입스크립트",
-      "isDone": false,
-      "deadLine": "2024-03-08"
-    },
-    {
-      "id": "62770d31-6ecf-49b9-8212-bed917c7554d",
-      "title": "ㅎㅎ",
-      "comment": "완료",
-      "isDone": false,
+      "id": "b9e54f75-2ce4-4e4e-b57f-e4f0c547f09d",
+      "title": "다시 ",
+      "comment": "삭제하기",
+      "isDone": true,
       "deadLine": "2024-03-06"
     }
   ]

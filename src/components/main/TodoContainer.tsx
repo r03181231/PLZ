@@ -8,14 +8,15 @@ interface TodoProps {
 }
 
 const TodoContainer = ({ isActive }: TodoProps) => {
-  console.log(isActive);
   const {
     isLoading: formTodoLoading,
     data: formTodoData,
     isError: formTodoError,
-    // status,
   } = useQuery("formTodo", getJson, { refetchOnWindowFocus: false });
-  const fliterFormTodo = formTodoData.filter((todoItem: TTodo) => todoItem.isDone === isActive);
+
+  const filterFormTodo = formTodoData
+    ? formTodoData.filter((todoItem: TTodo) => todoItem.isDone === isActive)
+    : [];
 
   if (formTodoLoading) {
     return <div>로딩중입니다...</div>;
@@ -31,7 +32,7 @@ const TodoContainer = ({ isActive }: TodoProps) => {
     <section>
       <div>{title}</div>
       <article>
-        {fliterFormTodo.map((todoItem: TTodo) => {
+        {filterFormTodo.map((todoItem: TTodo) => {
           return <Todo key={todoItem.id} todoItem={todoItem} />;
         })}
       </article>
