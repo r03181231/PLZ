@@ -1,15 +1,19 @@
-import { Todo } from "@/components/main/FormTodo";
+import { TTodo } from "@/components/main/FormTodo";
 import axios from "axios";
 
-const url = import.meta.env.VITE_API_URL;
+const serverUrl = import.meta.env.VITE_API_URL;
 
 export const getJson = async () => {
-  const { data } = await axios.get(`${url}/todos`);
+  const { data } = await axios.get(`${serverUrl}/todos`);
   console.log(data);
 
   return data;
 };
 
-export const postJson = async (newTodo: Todo) => {
-  await axios.post(`${url}/todos`, newTodo);
+export const postJson = async (newTodo: TTodo) => {
+  await axios.post(`${serverUrl}/todos`, newTodo);
+};
+
+export const deleteJson = async (id: string) => {
+  await axios.delete(`${serverUrl}/todos/${id}`);
 };

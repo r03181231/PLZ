@@ -4,7 +4,7 @@ import * as FT from "@styles/todoFormSection.Style";
 import { postJson } from "@/api/jsonApi";
 import useSetMutation from "@/hooks/useSetMutation";
 
-export interface Todo {
+export interface TTodo {
   id: string;
   title: string;
   comment: string;
@@ -15,7 +15,7 @@ export interface Todo {
 const FormTodo = () => {
   const [mutation] = useSetMutation(postJson, "formTodo");
   //   const add: string = "추가";
-  const init: Todo | undefined = {
+  const init: TTodo | undefined = {
     id: crypto.randomUUID(),
     title: "",
     comment: "",
@@ -52,7 +52,6 @@ const FormTodo = () => {
     }
     console.log(todoInput);
     mutation.mutate(todoInput);
-    // setTodoInputs((prevTodos: any) => [{ ...todoInput }, ...prevTodos]);
     setTodoInput(init);
     reset();
     refTitle.current?.focus();
