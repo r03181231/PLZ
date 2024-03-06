@@ -1,10 +1,15 @@
+import { Todo } from "@/components/main/FormTodo";
 import axios from "axios";
 
 const url = import.meta.env.VITE_API_URL;
-console.log(url);
 
 export const getJson = async () => {
-  const data = await axios.get(`${url}/todos`);
+  const { data } = await axios.get(`${url}/todos`);
   console.log(data);
+
   return data;
+};
+
+export const postJson = async (newTodo: Todo) => {
+  await axios.post(`${url}/todos`, newTodo);
 };
