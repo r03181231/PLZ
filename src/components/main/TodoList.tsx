@@ -1,5 +1,12 @@
+import TodoContainer from "./TodoContainer";
+
 const TodoList = () => {
-  return <div>TodoList</div>;
+  return (
+    <>
+      <TodoContainer isActive={false} />
+      <TodoContainer isActive={true} />
+    </>
+  );
 };
 
 export default TodoList;

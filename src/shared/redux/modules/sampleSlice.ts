@@ -14,5 +14,5 @@ const sampleSlice = createSlice({
     },
   },
 });
-export const { setAreaInfo } = sampleSlice.actions;
+export const { setSample } = sampleSlice.actions;
 export default sampleSlice.reducer;

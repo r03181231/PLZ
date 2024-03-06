@@ -1,16 +1,18 @@
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 import FormTodo from "@/components/main/FormTodo";
-// import { useQuery } from "react-query";
+import TodoList from "@/components/main/TodoList";
 
 const Home = () => {
-  // const { isLoding, data, isError} = useQuery()
   return (
-    <div>
+    <>
       <Header />
-      <FormTodo />
+      <main>
+        <FormTodo />
+        <TodoList />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 };
 
