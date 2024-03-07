@@ -5,7 +5,6 @@ export const CurrTime = () => {
 
   useEffect(() => {
     const moment = setInterval(() => setTime(new Date()), 1000);
-    console.log(new Date());
     return () => clearInterval(moment);
   }, []);
 

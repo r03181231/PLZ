@@ -5,7 +5,6 @@ const serverUrl = import.meta.env.VITE_API_URL;
 
 export const getJson = async () => {
   const { data } = await axios.get(`${serverUrl}/todos`);
-  console.log(data);
 
   return data;
 };
