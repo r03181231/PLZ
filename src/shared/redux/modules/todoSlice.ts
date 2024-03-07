@@ -13,14 +13,6 @@ const todoSlice = createSlice({
       const newTodo = action.payload;
       state.todosDatas = [newTodo, ...state.todosDatas];
     },
-    //       setTodosEdit: (state.action) => {
-    //   const clickId = action.payload;
-    //       if (done.id !== clickId) {
-    //    return { ...done };
-    //  } else {
-    //    return { ...done, isDone: !isDone };
-    //  }
-    //     }
   },
 });
 export const { setTodos } = todoSlice.actions;

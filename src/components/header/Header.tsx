@@ -1,3 +1,4 @@
+import CurrTime from "@/util/currTime";
 import styled from "styled-components";
 
 const Header = () => {
@@ -5,7 +6,10 @@ const Header = () => {
     <TodoListHeader>
       <LogoNdTitle>
         <LogoH2>logo</LogoH2>
-        <h1>todolistTitle</h1>
+        <div>
+          <CurrTime />
+          <h1>todolistTitle</h1>
+        </div>
       </LogoNdTitle>
     </TodoListHeader>
   );
