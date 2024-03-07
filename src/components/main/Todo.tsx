@@ -8,7 +8,6 @@ interface Item {
 }
 
 const Todo = ({ todoItem }: Item) => {
-  //   console.log(todoItem); {id : , title: , comment}
   const [deleteMutation] = useSetMutation(deleteJson, "formTodo");
   const [changeMutation] = useSetMutation(changeJson, "formTodo");
   const { id, title, comment, deadLine, isDone } = todoItem;
