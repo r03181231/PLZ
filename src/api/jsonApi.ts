@@ -1,6 +1,6 @@
 import { TTodo } from "@/components/main/FormTodo";
 import axios from "axios";
-// URI //
+// URI
 const serverUrl = import.meta.env.VITE_API_URL;
 
 export const getJson = async () => {
