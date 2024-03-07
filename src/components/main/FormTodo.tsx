@@ -50,7 +50,6 @@ const FormTodo = () => {
       alert("빈칸을 전부 채워주세요.");
       return;
     }
-    console.log(todoInput);
     mutation.mutate(todoInput);
     setTodoInput(init);
     reset();
