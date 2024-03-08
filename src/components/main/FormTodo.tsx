@@ -5,18 +5,18 @@ import { postJson } from "@/api/jsonApi";
 import useSetMutation from "@/hooks/useSetMutation";
 import { toast } from "react-toastify";
 
-export interface TTodo {
+export type TTodo = {
   id: string;
   title: string;
   comment: string;
   isDone: boolean;
   deadLine: string;
-}
+};
 
 const FormTodo = () => {
   const [mutation] = useSetMutation(postJson, "formTodo");
   //   const add: string = "추가";
-  const init: Partial<TTodo> = {
+  const init: TTodo = {
     id: crypto.randomUUID(),
     title: "",
     comment: "",
@@ -26,9 +26,9 @@ const FormTodo = () => {
 
   const [todoInput, setTodoInput, onChange, reset] = useInput(init);
   const refTitle = useRef<HTMLInputElement>(null);
-  const titleInput = todoInput?.title || "";
-  const commentInput = todoInput?.comment || "";
-  const deadLineInput = todoInput?.deadLine || "";
+  const titleInput = todoInput.title || "";
+  const commentInput = todoInput.comment || "";
+  const deadLineInput = todoInput.deadLine || "";
   const blankPattern = /^\s+|\s+$/g;
 
   // as string;

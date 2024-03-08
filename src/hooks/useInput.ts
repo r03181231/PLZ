@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from "react";
 
 interface initialFormType {
-  [key: string]: unknown;
+  [key: string]: unknown; //any
 }
 
 // 제네릭으로 개선 => 타입을 동적으로 바꿀 수 있다.
