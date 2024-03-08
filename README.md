@@ -308,7 +308,160 @@ $ yarn dev or npm run dev
 
 ## 💥트러블 슈팅💥
 
----
+## 📌 관련 이슈
+
+  closed #16 
+
+## Task TODOLIST
+
+- [ ] input값 타입에 대한 트러블 슈팅 해결
+
+## ✨ 개발 내용
+
+
+##  TroubleShotting
+
+-문제 : 유효성 검사로 공백을 제거 하기 위해 해당 문자열에서 공백을 모두 제거해서 빈 문자열로 대체하려고 replace함수를 사용했지만,  
+
+> {}' 형식에 'replace' 속성이 없습니다."
+
+라는 메세지가 뜸.
+
+- 원인 : useInput의 initialState의 interface타입을 any에서 unknown으로 바꿨을 때, 타입스크립트가 interface에서 지정한 string타입을 인지 못 함.
+- 방안1 : as  string으로 타입을 확정해줌.
+- 방안2 : 매개변수에만 제네릭을 사용해서 매개변수로 들어오는 initialState의 값에 제네릭으로 타입지정해 주기.  
+- 방안3 : 사용된 useInput 커스텀 훅의 initialState의 타입을 제네릭으로 타입을 동적으로 바꾸고 리턴 값을 배열이 아니라 객체로 리턴하게 하기.
+- 선택한 방안 : 방안 1, 방안 2
+- 선택한 이유 : 방안 1이 현재  방안 2를 고수하기엔 아직 제네릭에 대한 개념이 잡혀있지 않기 때문에 제네릭을 좀 더 공부하고 사용하기.
+- 해결 1 : as string을 붙여주어 값의 타입을 확정함. 
+(as 타입 형태는 실상 타입스크립트에 의존하지 않고 개발자 본인이 강제해서 타입을 정해주는 것이라 최종적인 방법으로 써야함.)
+- 해결 2 : 방안 2을 사용해서 useInput에서 오류에만 해당하는 매개변수값으로 들어오는 initialState값만 제네릭으로 타입지정해줌.
+- 문제와 관련 코드
+- useInput.tsx
+```tsx
+
+interface initialFormType {
+  [key: string]: unknown;
+}
+
+```
+
+-FormTodo.tsx
+```tsx
+  const [todoInput, setTodoInput, onChange, reset] = useInput(init);
+  const refTitle = useRef<HTMLInputElement>(null);
+  const titleInput = (todoInput?.title || "") as string;
+  const commentInput = (todoInput?.comment || "") as string;
+  const deadLineInput = (todoInput?.deadLine || "") as string;
+  const blankPattern = /^\s+|\s+$/g;
+
+~ 내용 생략~
+
+  // 들어온 값으로 교체해주기
+  const onSubmitHand = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const titleBlank = (titleInput || "").replace(blankPattern, "");
+    const commentBlank = (commentInput || "").replace(blankPattern, "");
+
+```
+
+해결 1 :  as string을 붙여주어 값의 타입을 확정함. 
+
+-해결 전 FormTodo.tsx
+```tsx
+const titleInput = todoInput?.title || "";
+ const commentInput = todoInput?.comment || "";
+ const deadLineInput = todoInput?.deadLine || "";
+
+```
+-해결 후 FormTodo.tsx
+
+```tsx
+ const titleInput = (todoInput?.title || "") as string;
+  const commentInput = (todoInput?.comment || "") as string;
+  const deadLineInput = (todoInput?.deadLine || "") as string;
+```
+
+
+-해결 2 :  방안 2을 사용해서 useInput에서 오류에만 해당하는 매개변수값으로 들어오는 initialState값만 제네릭으로 타입지정해줌.
+
+-문제의 useInput.tsx
+```tsx
+ 
+import { ChangeEvent, useCallback, useState } from "react";
+
+interface initialFormType {
+  [key: string]: any;
+}
+
+const useInput = (initialForm: initialFormType) => {
+  const [form, setForm] = useState<initialFormType>(initialForm);
+
+const onChange = useCallback(
+   (
+      e:
+        | ChangeEvent<HTMLInputElement>
+        | ChangeEvent<HTMLSelectElement>
+        | ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      const { name, value } = e.target;
+      setForm((preForm) => ({ ...preForm, [name]: value }));
+    },
+    []
+ );
+  const reset = useCallback(() => setForm(initialForm), [initialForm]);
+
+return [form, setForm, onChange, reset] as const;
+};
+
+export default useInput;
+
+```
+
+
+- 해결 후
+- useInput.tsx
+```tsx
+import { ChangeEvent, useCallback, useState } from "react";
+
+interface initialFormType {
+  [key: string]: unknown;
+}
+
+// 제네릭으로 개선 => 타입을 동적으로 바꿀 수 있다.
+const useInput = <T extends initialFormType>(initialForm: T) => {
+  const [form, setForm] = useState<T>(initialForm);
+
+  //onChange
+  const onChange = useCallback(
+    (
+      e:
+        | ChangeEvent<HTMLInputElement>
+        | ChangeEvent<HTMLSelectElement>
+        | ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      const { name, value } = e.target;
+      setForm((preForm) => ({ ...preForm, [name]: value }));
+    },
+    []
+  );
+  const reset = useCallback(() => setForm(initialForm), [initialForm]);
+
+  return [form, setForm, onChange, reset] as const; // 객체로 내보내는 게 좋다
+};
+
+export default useInput;
+
+
+```
+
+- FormTodo.tsx
+```tsx
+ const titleInput = todoInput?.title || "";
+  const commentInput = todoInput?.comment || "";
+  const deadLineInput = todoInput?.deadLine || "";
+```
+
 
 
 <br />
