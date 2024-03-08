@@ -21,7 +21,6 @@ const TodoContainer = ({ isActive }: TodoProps) => {
 
   if (formTodoLoading) {
     return toast("로딩중입니다...");
-    // return <div>로딩중입니다...</div>;
   }
 
   if (formTodoError) {
