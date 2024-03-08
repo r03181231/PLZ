@@ -5,7 +5,9 @@ const Header = () => {
     <TodoListHeader>
       <LogoNdTitle>
         <LogoH2>logo</LogoH2>
-        <h1>todolistTitle</h1>
+        <div>
+          <h1>todolistTitle</h1>
+        </div>
       </LogoNdTitle>
     </TodoListHeader>
   );

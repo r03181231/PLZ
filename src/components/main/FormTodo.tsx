@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import * as FT from "@styles/todoFormSection.Style";
 import { postJson } from "@/api/jsonApi";
 import useSetMutation from "@/hooks/useSetMutation";
+import { toast } from "react-toastify";
 
 export interface TTodo {
   id: string;
@@ -15,7 +16,7 @@ export interface TTodo {
 const FormTodo = () => {
   const [mutation] = useSetMutation(postJson, "formTodo");
   //   const add: string = "추가";
-  const init: TTodo | undefined = {
+  const init: Partial<TTodo> = {
     id: crypto.randomUUID(),
     title: "",
     comment: "",
@@ -29,6 +30,15 @@ const FormTodo = () => {
   const commentInput = todoInput?.comment || "";
   const deadLineInput = todoInput?.deadLine || "";
   const blankPattern = /^\s+|\s+$/g;
+
+  // as string;
+  // 타입 어서션(단언하다)
+  // 다른 타입이지만 string이다 강제
+  // 타입스크립트를 의지하지 않는
+
+  // unknown, never(사용금지) - overFetch (너모 많이 가져옴), underFetch(너모 적게..), null
+  // Rest API 단점 - OverFetch
+
   useEffect(() => {
     if (refTitle.current !== null) {
       refTitle.current.focus();
@@ -38,8 +48,9 @@ const FormTodo = () => {
   // 들어온 값으로 교체해주기
   const onSubmitHand = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const titleBlank = titleInput.replace(blankPattern, "");
-    const commentBlank = commentInput.replace(blankPattern, "");
+    console.log("titleInput,commentInput,deadLineInput", titleInput, commentInput, deadLineInput);
+    const titleBlank = (titleInput || "").replace(blankPattern, "");
+    const commentBlank = (commentInput || "").replace(blankPattern, "");
 
     // 공백이면 아무 것도 리턴하지 않게 해줘.
     if (titleBlank === "" && commentBlank === "") {
@@ -51,6 +62,7 @@ const FormTodo = () => {
       return;
     }
     mutation.mutate(todoInput);
+    toast("글이 등록되었습니다.");
     setTodoInput(init);
     reset();
     refTitle.current?.focus();

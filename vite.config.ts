@@ -12,7 +12,6 @@ export default defineConfig({
       { find: "@pages", replacement: "/src/pages" },
       { find: "@shared", replacement: "/src/shared" },
       { find: "@styles", replacement: "/src/styles" },
-      { find: "@util", replacement: "/src/util" },
       { find: "@components", replacement: "/src/components" },
     ],
   },

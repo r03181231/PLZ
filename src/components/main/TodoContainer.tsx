@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { TTodo } from "./FormTodo";
 import { getJson } from "@/api/jsonApi";
 import Todo from "./Todo";
+import { toast } from "react-toastify";
 
 interface TodoProps {
   isActive: boolean;
@@ -19,11 +20,12 @@ const TodoContainer = ({ isActive }: TodoProps) => {
     : [];
 
   if (formTodoLoading) {
-    return <div>로딩중입니다...</div>;
+    return toast("로딩중입니다...");
+    // return <div>로딩중입니다...</div>;
   }
 
   if (formTodoError) {
-    return <div>정보를 불러오지 못하고 있습니다...</div>;
+    return toast.error("정보를 불러오지 못하고 있습니다...");
   }
 
   const title = isActive ? "✅Done" : "🔥Working";
