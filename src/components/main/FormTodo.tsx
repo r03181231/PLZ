@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import * as FT from "@styles/todoFormSection.Style";
 import { postJson } from "@/api/jsonApi";
 import useSetMutation from "@/hooks/useSetMutation";
+import { toast } from "react-toastify";
 
 export interface TTodo {
   id: string;
@@ -15,7 +16,7 @@ export interface TTodo {
 const FormTodo = () => {
   const [mutation] = useSetMutation(postJson, "formTodo");
   //   const add: string = "추가";
-  const init: TTodo | undefined = {
+  const init: Partial<TTodo> = {
     id: crypto.randomUUID(),
     title: "",
     comment: "",
@@ -25,10 +26,11 @@ const FormTodo = () => {
 
   const [todoInput, setTodoInput, onChange, reset] = useInput(init);
   const refTitle = useRef<HTMLInputElement>(null);
-  const titleInput = todoInput?.title || "";
-  const commentInput = todoInput?.comment || "";
-  const deadLineInput = todoInput?.deadLine || "";
+  const titleInput = (todoInput?.title || "") as string;
+  const commentInput = (todoInput?.comment || "") as string;
+  const deadLineInput = (todoInput?.deadLine || "") as string;
   const blankPattern = /^\s+|\s+$/g;
+
   useEffect(() => {
     if (refTitle.current !== null) {
       refTitle.current.focus();
@@ -38,8 +40,8 @@ const FormTodo = () => {
   // 들어온 값으로 교체해주기
   const onSubmitHand = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const titleBlank = titleInput.replace(blankPattern, "");
-    const commentBlank = commentInput.replace(blankPattern, "");
+    const titleBlank = (titleInput || "").replace(blankPattern, "");
+    const commentBlank = (commentInput || "").replace(blankPattern, "");
 
     // 공백이면 아무 것도 리턴하지 않게 해줘.
     if (titleBlank === "" && commentBlank === "") {
@@ -51,6 +53,7 @@ const FormTodo = () => {
       return;
     }
     mutation.mutate(todoInput);
+    toast("글이 등록되었습니다.");
     setTodoInput(init);
     reset();
     refTitle.current?.focus();

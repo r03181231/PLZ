@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
 import TodoList from "@/components/main/TodoList";
 import Layout from "@/components/layout/Layout";
+import Home from "@/pages/Home";
 
 const Router = () => {
   return (

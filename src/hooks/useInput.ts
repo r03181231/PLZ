@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from "react";
 
 interface initialFormType {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 const useInput = (initialForm: initialFormType) => {

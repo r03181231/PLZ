@@ -4,9 +4,12 @@ import axios from "axios";
 const serverUrl = import.meta.env.VITE_API_URL;
 
 export const getJson = async () => {
-  const { data } = await axios.get(`${serverUrl}/todos`);
-
-  return data;
+  try {
+    const { data } = await axios.get(`${serverUrl}/todos`);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const postJson = async (newTodo: TTodo) => {

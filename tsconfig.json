@@ -29,7 +29,6 @@
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
       "@shared/*": ["src/shared/*"],
-      "@util/*": ["src/util/*"],
       "@hooks/*": ["src/hooks"]
     }
   },
