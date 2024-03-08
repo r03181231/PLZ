@@ -26,10 +26,18 @@ const FormTodo = () => {
 
   const [todoInput, setTodoInput, onChange, reset] = useInput(init);
   const refTitle = useRef<HTMLInputElement>(null);
-  const titleInput = (todoInput?.title || "") as string;
-  const commentInput = (todoInput?.comment || "") as string;
-  const deadLineInput = (todoInput?.deadLine || "") as string;
+  const titleInput = todoInput?.title || "";
+  const commentInput = todoInput?.comment || "";
+  const deadLineInput = todoInput?.deadLine || "";
   const blankPattern = /^\s+|\s+$/g;
+
+  // as string;
+  // 타입 어서션(단언하다)
+  // 다른 타입이지만 string이다 강제
+  // 타입스크립트를 의지하지 않는
+
+  // unknown, never(사용금지) - overFetch (너모 많이 가져옴), underFetch(너모 적게..), null
+  // Rest API 단점 - OverFetch
 
   useEffect(() => {
     if (refTitle.current !== null) {
@@ -40,6 +48,7 @@ const FormTodo = () => {
   // 들어온 값으로 교체해주기
   const onSubmitHand = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("titleInput,commentInput,deadLineInput", titleInput, commentInput, deadLineInput);
     const titleBlank = (titleInput || "").replace(blankPattern, "");
     const commentBlank = (commentInput || "").replace(blankPattern, "");
 

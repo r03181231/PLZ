@@ -4,8 +4,9 @@ interface initialFormType {
   [key: string]: unknown;
 }
 
-const useInput = (initialForm: initialFormType) => {
-  const [form, setForm] = useState<initialFormType>(initialForm);
+// 제네릭으로 개선 => 타입을 동적으로 바꿀 수 있다.
+const useInput = <T extends initialFormType>(initialForm: T) => {
+  const [form, setForm] = useState<T>(initialForm);
 
   //onChange
   const onChange = useCallback(
@@ -22,7 +23,7 @@ const useInput = (initialForm: initialFormType) => {
   );
   const reset = useCallback(() => setForm(initialForm), [initialForm]);
 
-  return [form, setForm, onChange, reset] as const;
+  return [form, setForm, onChange, reset] as const; // 객체로 내보내는 게 좋다
 };
 
 export default useInput;
